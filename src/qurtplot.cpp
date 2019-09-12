@@ -11,59 +11,15 @@
 #include <qustringlist.h>
 #include <cucontextmenu.h>
 #include <culinkstats.h>
-#include <QLabel>
-#include <QSpinBox>
-#include <QPushButton>
 #include <QPropertyAnimation>
 #include <quplotcontextmenucomponent.h>
+
+#include "rtconfwidget.h"
 
 class QuRTPlotPrivate {
 public:
     QuSpectrumPlot *plot;
 };
-
-
-RTConfWidget::RTConfWidget(QWidget *parent) : QGroupBox (parent)
-{
-    QGridLayout *lo = new QGridLayout(this);
-    lo->setMargin(3);
-    lo->setSpacing(lo->spacing() / 3.0);
-    QLabel *lperiod = new QLabel("Period", this);
-    lperiod->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-    QLabel *lnsam = new QLabel("Number of samples", this);
-    lnsam->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-    QSpinBox *sbperiod = new QSpinBox(this);
-    sbperiod->setMinimum(10);
-    sbperiod->setMaximum(10000);
-    sbperiod->setValue(100);
-    sbperiod->setSuffix("ms");
-    sbperiod->setObjectName("sbperiod");
-    QSpinBox *sbSamples = new QSpinBox (this);
-    sbSamples->setMinimum(10);
-    sbSamples->setMaximum(10000);
-    sbSamples->setValue(1000);
-    sbSamples->setObjectName("sbnsam");
-
-    lo->addWidget(lperiod, 0, 0, 1, 1);
-    lo->addWidget(sbperiod, 0, 1, 1, 1);
-    lo->addWidget(lnsam, 0, 2, 1, 1);
-    lo->addWidget(sbSamples, 0, 3, 1, 1);
-
-    QPushButton *pbApply = new QPushButton("Apply", this);
-    lo->addWidget(pbApply, 1, 0, 1, 1);
-    connect(pbApply, SIGNAL(clicked()), this, SLOT(applyClicked()));
-    QPushButton *pbClose = new QPushButton("Close", this);
-    connect(pbClose, SIGNAL(clicked()), this, SIGNAL(hide()));
-    lo->addWidget(pbClose, 1, 3, 1, 1);
-
-    setTitle("Configure real time plot");
-}
-
-
-void RTConfWidget::applyClicked()
-{
-    emit apply(findChild<QSpinBox *>("sbperiod")->value(), findChild<QSpinBox *>("sbnsam")->value());
-}
 
 QuRTPlot::QuRTPlot(QWidget *parent, Cumbia *cumbia, const CuControlsReaderFactoryI &r_fac ) : QWidget (parent)
 
@@ -82,6 +38,8 @@ QuRTPlot::QuRTPlot(QWidget *parent, CumbiaPool *cumbia_pool, const CuControlsFac
 
 QuRTPlot::~QuRTPlot()
 {
+    delete d->plot;
+    delete findChild<RTConfWidget *>();
     delete d;
 }
 
@@ -140,12 +98,6 @@ void QuRTPlot::setSources(const QStringList &srcs)
      d->plot->setSources(srcs);
 }
 
-void QuRTPlot::contextMenuEvent(QContextMenuEvent *e)
-{
-    printf("QuRTPlot::contextMenuEvent\n");
-
-}
-
 void QuRTPlot::showRTConf()
 {
     RTConfWidget *cw = findChild<RTConfWidget *>();
@@ -172,7 +124,11 @@ void QuRTPlot::hideRTConf()
         a->setEndValue(0);
     }
     a->start();
+}
 
+void QuRTPlot::setRTConfVisible(bool vis)
+{
+    vis ? showRTConf() : hideRTConf();
 }
 
 void QuRTPlot::applyRTConf(int period, int nsam)
@@ -192,13 +148,30 @@ void QuRTPlot::applyRTConf(int period, int nsam)
         d->plot->setSources(srcs);
 }
 
+void QuRTPlot::setCloseButtonVisible(bool vis) {
+    findChild<RTConfWidget *>()->findChild<QWidget *>("pbClose")->setVisible(vis);
+}
+
+void QuRTPlot::setApplyButtonVisible(bool vis) {
+    findChild<RTConfWidget *>()->findChild<QWidget *>("pbApply")->setVisible(vis);
+}
+
+void QuRTPlot::applyConf() {
+    findChild<RTConfWidget *>()->applyClicked();
+}
+
+bool QuRTPlot::closeButtonVisible() const {
+    return findChild<RTConfWidget *>()->findChild<QWidget *>("pbClose")->isVisible();
+}
+
+bool QuRTPlot::applyButtonVisible() const {
+    return findChild<RTConfWidget *>()->findChild<QWidget *>("pbApply")->isVisible();
+}
 
 bool QuRTPlot::eventFilter(QObject *watched, QEvent *event)
 {
     if(event->type() == QEvent::ContextMenu) {
-        printf("Custom event filter\n");
-        QuPlotContextMenuComponent * menu_comp = static_cast<QuPlotContextMenuComponent *>(d->plot->getComponent("context_menu"));
-        QMenu *m = menu_comp->getMenu(d->plot, d->plot->contextMenuStrategy());
+        QMenu *m = d->plot->contextMenuStrategy()->createMenu(d->plot);
         if(m) {
             m->addSeparator();
             m->addAction("Realtime plot...", this, SLOT(showRTConf()));

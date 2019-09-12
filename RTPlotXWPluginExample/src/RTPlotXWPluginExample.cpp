@@ -23,9 +23,11 @@ RTPlotXWPluginExample::RTPlotXWPluginExample(CumbiaTango *cut, QWidget *parent) 
     QuXtraWidgetPluginLoader xwpl;
     QuXtraWidgetPluginI *pi = xwpl.getPlugin("QuRTPlot");
     if(pi) {
-        QWidget *rtPlot = pi->create("QuRTPlot", parent, cut, this->cu_tango_r_fac);
+        QString classNam;
+        qApp->arguments().size() > 2 && qApp->arguments().at(2) == "--conf-dialog" ? classNam = "QuRTPlot2" : classNam = "QuRTPlot";
+         printf("instantiating %s\n", qstoc(classNam));
+        QWidget *rtPlot = pi->create(classNam, parent, cut, this->cu_tango_r_fac);
         lo->addWidget(rtPlot);
-        printf("plot created\n");
         rtPlot->setObjectName("rtPlot");
         // either use the "source" property
         printf("setting source %s\n", qstoc(qApp->arguments()[1]));

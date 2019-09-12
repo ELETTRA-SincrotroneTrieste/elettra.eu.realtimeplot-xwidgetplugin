@@ -72,6 +72,8 @@ RTPlotXWPluginExample::RTPlotXWPluginExample(CumbiaTango *cumbia_tango, QWidget 
         rtPlot->setProperty("source", qApp->arguments()[1]);
         // or
         // rtPlot->setProperty("sources", QStringList() << "s/t/u->get(0,1000)" << "v/w/x->get(0,1000)" );
+    }
+    // else use another plot/strategy
 }
 ```
 

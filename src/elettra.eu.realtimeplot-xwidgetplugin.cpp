@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <cucontext.h>
 #include "qurtplot.h"
+#include "qurtplot2.h"
 #include <cumacros.h>
 
 RTPlotXWidgetPlugin::RTPlotXWidgetPlugin(QObject *parent)
@@ -22,6 +23,8 @@ QWidget *RTPlotXWidgetPlugin::create(const QString &name, QWidget *parent, Cumbi
 {
     if(name == "QuRTPlot")
         return new QuRTPlot(parent, cumbia, r_fac);
+    else if(name == "QuRTPlot2")
+        return new QuRTPlot2(parent, cumbia, r_fac);
     perr("RTPlotXWidgetPlugin.create: RTPlotXWidgetPlugin does not provide the widget \"%s\"", qstoc(name));
     return nullptr;
 }
@@ -31,6 +34,8 @@ QWidget *RTPlotXWidgetPlugin::create(const QString &name, QWidget *parent, Cumbi
 {
     if(name == "QuRTPlot")
         return new QuRTPlot(parent, cumbia_pool, fpool);
+    else if(name == "QuRTPlot2")
+        return new QuRTPlot2(parent, cumbia_pool, fpool);
     perr("RTPlotXWidgetPlugin.create: RTPlotXWidgetPlugin does not provide the widget \"%s\"", qstoc(name));
     return nullptr;
 }

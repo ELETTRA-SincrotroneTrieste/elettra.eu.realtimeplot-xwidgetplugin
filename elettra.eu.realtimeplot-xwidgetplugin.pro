@@ -27,11 +27,15 @@ DEFINES -= QT_NO_DEBUG_OUTPUT
 
 SOURCES += \
 	src/qurtplot.cpp \
-        src/elettra.eu.realtimeplot-xwidgetplugin.cpp
+        src/elettra.eu.realtimeplot-xwidgetplugin.cpp \
+    src/qurtplot2.cpp \
+        src/rtconfwidget.cpp
 
 HEADERS += \
 	src/qurtplot.h \
-        src/elettra.eu.realtimeplot-xwidgetplugin.h
+        src/elettra.eu.realtimeplot-xwidgetplugin.h \
+    src/qurtplot2.h \
+        src/rtconfwidget.h
 
 INC_PATH = $${INSTALL_ROOT}/include/qumbia-plugins
 inc.files = src/qutextview.h

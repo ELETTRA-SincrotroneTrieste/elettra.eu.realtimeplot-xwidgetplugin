@@ -5,35 +5,18 @@
 #include <cudata.h>
 #include <cudatalistener.h>
 #include <quxtrawidgetplugininterface.h>
-#include <QGroupBox>
 
 class Cumbia;
 class CuControlsReaderFactoryI;
 class QuRTPlotPrivate;
-
-//class CtxMenuObjFilter : public QObject {
-//    Q_OBJECT
-//public:
-//    virtual bool eventFilter(QObject *watched, QEvent *event);
-//};
-
-class RTConfWidget : public QGroupBox {
-    Q_OBJECT
-public:
-    RTConfWidget(QWidget *parent);
-
-private slots:
-    void applyClicked();
-signals:
-    void apply(int period, int nSamples);
-    void hide();
-};
 
 class QuRTPlot : public QWidget, public QuXtraWidgetI
 {
     Q_OBJECT
     Q_PROPERTY(QString source READ link WRITE setLink)
     Q_PROPERTY(QStringList sources READ sources WRITE setSources)
+    Q_PROPERTY(bool closeButtonVisible READ closeButtonVisible WRITE setCloseButtonVisible)
+    Q_PROPERTY(bool applyButtonVisible READ applyButtonVisible WRITE setApplyButtonVisible)
 
 public:
     QuRTPlot(QWidget *parent, Cumbia *cumbia, const CuControlsReaderFactoryI &r_fac);
@@ -52,17 +35,21 @@ public:
 
     QStringList sources() const;
 
+    bool closeButtonVisible() const;
+    bool applyButtonVisible() const;
+
 public slots:
     void setSources(const QStringList& srcs);
-
-protected:
-    void contextMenuEvent(QContextMenuEvent* e);
-
-    bool eventFilter(QObject *watched, QEvent *event);
-protected slots:
     void showRTConf();
     void hideRTConf();
+    void setRTConfVisible(bool vis);
     void applyRTConf(int period, int nsam);
+    void setCloseButtonVisible(bool vis);
+    void setApplyButtonVisible(bool vis);
+    void applyConf();
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event);
 
 private:
     QuRTPlotPrivate *d;
