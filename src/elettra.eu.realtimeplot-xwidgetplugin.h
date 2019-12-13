@@ -1,9 +1,7 @@
-#ifndef INTERVALSLIDERXTRAWIDGETPLUGIN_H
-#define INTERVALSLIDERXTRAWIDGETPLUGIN_H
+#ifndef RTPLOTXWIDGETPLUGIN_H
+#define RTPLOTXWIDGETPLUGIN_H
 
 #include <quxtrawidgetplugininterface.h>
-#include <QAction>
-#include <QList>
 #include <QObject>
 
 class RTPlotXWidgetPlugin : public QObject, public QuXtraWidgetPluginI
@@ -17,15 +15,11 @@ public:
 
     Q_INTERFACES(QuXtraWidgetPluginI)
 
-
-private:
-
-
     // QuXtraWidgetPluginI interface
-public:
     QWidget *create(const QString &name, QWidget *parent, Cumbia *cumbia, const CuControlsReaderFactoryI &r_fac);
     QWidget *create(const QString &name, QWidget *parent, CumbiaPool *cumbia_pool, const CuControlsFactoryPool &fpool);
     QString name() const;
+    QString description() const;
     QStringList catalogue() const;
 };
 

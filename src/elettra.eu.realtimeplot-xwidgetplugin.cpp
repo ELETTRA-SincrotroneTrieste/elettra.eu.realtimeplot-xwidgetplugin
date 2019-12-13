@@ -1,8 +1,5 @@
 #include "elettra.eu.realtimeplot-xwidgetplugin.h"
-#include <QClipboard>
 #include <cucontrolsreader_abs.h>
-#include <cucontrolswriter_abs.h>
-#include <QApplication>
 #include <cucontext.h>
 #include "qurtplot.h"
 #include "qurtplot2.h"
@@ -45,7 +42,15 @@ QString RTPlotXWidgetPlugin::name() const
     return "elettra.eu.rtplotxwidgetplugin";
 }
 
+QString RTPlotXWidgetPlugin::description() const
+{
+    return QString("%1 provides two kind of \"realtime plots\" that connect and display arrays "
+                   "from some special Elettra Tango devices exporting \"real time\" commands. "
+                   "QuRTPlot2 is the version with the popup dialog configuration, QuRTPlot shows "
+                   "a configuration section within the widget itself.").arg(name());
+}
+
 QStringList RTPlotXWidgetPlugin::catalogue() const
 {
-    return QStringList() << "QuRTPlot";
+    return QStringList() << "QuRTPlot" << "QuRTPlot2";
 }

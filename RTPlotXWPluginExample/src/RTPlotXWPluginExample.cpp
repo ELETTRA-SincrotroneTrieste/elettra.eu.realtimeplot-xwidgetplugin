@@ -23,6 +23,7 @@ RTPlotXWPluginExample::RTPlotXWPluginExample(CumbiaTango *cut, QWidget *parent) 
     QuXtraWidgetPluginLoader xwpl;
     QuXtraWidgetPluginI *pi = xwpl.getPlugin("QuRTPlot");
     if(pi) {
+        printf("Plugin desc %s\n", qstoc(pi->description()));
         QString classNam;
         qApp->arguments().size() > 2 && qApp->arguments().at(2) == "--conf-dialog" ? classNam = "QuRTPlot2" : classNam = "QuRTPlot";
          printf("instantiating %s\n", qstoc(classNam));

@@ -8,16 +8,15 @@
 
 QuRTPlot2::QuRTPlot2(QWidget *parent, Cumbia *cumbia, const CuControlsReaderFactoryI &r_fac)
  : QuSpectrumPlot (parent, cumbia, r_fac) {
-
+    setYAxisAutoscaleEnabled(true);
 }
 
 QuRTPlot2::QuRTPlot2(QWidget *parent, CumbiaPool *cumbia_pool, const CuControlsFactoryPool &fpool)
  : QuSpectrumPlot (parent, cumbia_pool, fpool) {
-
+    setYAxisAutoscaleEnabled(true);
 }
 
-QuRTPlot2::~QuRTPlot2()
-{
+QuRTPlot2::~QuRTPlot2() {
 
 }
 

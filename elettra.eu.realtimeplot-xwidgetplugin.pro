@@ -4,7 +4,11 @@
 #
 #-------------------------------------------------
 
-include(/usr/local/cumbia-libs/include/cumbia-qtcontrols/cumbia-qtcontrols.pri)
+isEmpty(INSTALL_ROOT) {
+    INSTALL_ROOT = /usr/local/cumbia-libs
+}
+
+include($${INSTALL_ROOT}/include/cumbia-qtcontrols/cumbia-qtcontrols.pri)
 
 QT       += core gui
 
@@ -38,7 +42,11 @@ HEADERS += \
         src/rtconfwidget.h
 
 INC_PATH = $${INSTALL_ROOT}/include/qumbia-plugins
-inc.files = src/qutextview.h
+inc.files =  \
+        src/qurtplot.h \
+        src/qurtplot2.h \
+        src/rtconfwidget.h
+
 inc.path = $${INC_PATH}
 
 DISTFILES += elettra.eu.realtimeplot-xwidgetplugin.json  \
