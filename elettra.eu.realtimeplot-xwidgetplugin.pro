@@ -73,5 +73,5 @@ unix {
     INSTALLS += target inc
 }
 
-message("elettra.eu.realtimeplot-xwidgetplugin: plugin installation dir:  $${DEFINES_CUMBIA_QTCONTROLS_PLUGIN_DIR}")
+message("elettra.eu.realtimeplot-xwidgetplugin: plugin installation dir:  $${LIB_DIR}")
 message("elettra.eu.realtimeplot-xwidgetplugin: include installation dir: $${INC_PATH}")
