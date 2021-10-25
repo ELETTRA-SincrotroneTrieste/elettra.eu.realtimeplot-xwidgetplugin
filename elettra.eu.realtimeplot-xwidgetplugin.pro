@@ -29,6 +29,9 @@ TARGET = elettra.eu.realtimeplot-xwidgetplugin
 TEMPLATE = lib
 CONFIG += plugin
 
+INC_PATH = $${INSTALL_ROOT}/include/qumbia-plugins
+LIB_PATH = $${INSTALL_ROOT}/lib/qumbia-plugins
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -54,7 +57,7 @@ HEADERS += \
     src/qurtplot2.h \
         src/rtconfwidget.h
 
-INC_PATH = $${INSTALL_ROOT}/include/qumbia-plugins
+
 inc.files =  \
         src/qurtplot.h \
         src/qurtplot2.h \
@@ -66,7 +69,7 @@ DISTFILES += elettra.eu.realtimeplot-xwidgetplugin.json  \
     README.md
 
 unix {
-    target.path = $${DEFINES_CUMBIA_QTCONTROLS_PLUGIN_DIR}
+    target.path = $${LIB_PATH}
     INSTALLS += target inc
 }
 
