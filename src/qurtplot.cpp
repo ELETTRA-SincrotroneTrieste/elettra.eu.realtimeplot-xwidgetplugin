@@ -13,6 +13,7 @@
 #include <culinkstats.h>
 #include <QPropertyAnimation>
 #include <quplotcontextmenucomponent.h>
+#include <QRegularExpression>
 
 #include "rtconfwidget.h"
 
@@ -137,10 +138,11 @@ void QuRTPlot::applyRTConf(int period, int nsam)
     if(period != d->plot->period())
         d->plot->setPeriod(period);
     foreach(QString s, d->plot->sources()) {
-        QRegExp cmdRe("(.*)\\((\\d+),(\\d+)\\)");
-        if(cmdRe.indexIn(s) > -1 && cmdRe.capturedTexts().size() > 3) {
-            QStringList caps = cmdRe.capturedTexts();
-            QString newSrc = QString("%1(%2,%3)").arg(caps[1]).arg(caps[2]).arg(nsam);
+        QRegularExpression cmdRe("(.*)\\((\\d+),(\\d+)\\)");
+        QRegularExpressionMatch ma = cmdRe.match(s);
+        if(ma.hasMatch() && ma.capturedTexts().size() > 3) {
+            const QStringList &caps = ma.capturedTexts();
+            const QString &newSrc = QString("%1(%2,%3)").arg(caps[1]).arg(caps[2]).arg(nsam);
             srcs << newSrc;
         }
     }
@@ -175,8 +177,8 @@ bool QuRTPlot::eventFilter(QObject *watched, QEvent *event)
         if(m) {
             m->addSeparator();
             m->addAction("Realtime plot...", this, SLOT(showRTConf()));
+            m->popup(static_cast<QContextMenuEvent *>(event)->globalPos());
         }
-        m->popup(static_cast<QContextMenuEvent *>(event)->globalPos());
         return true;
     }
     return QObject::eventFilter(watched, event);
