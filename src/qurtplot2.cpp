@@ -76,9 +76,10 @@ void QuRTPlot2::configureRT() {
         if(timeout != period())
             setPeriod(timeout);
         foreach(QString s, sources()) {
-            QRegExp cmdRe("(.*)\\((\\d+),(\\d+)\\)");
-            if(cmdRe.indexIn(s) > -1 && cmdRe.capturedTexts().size() > 3) {
-                QStringList caps = cmdRe.capturedTexts();
+            QRegularExpression cmdRe("(.*)\\((\\d+),(\\d+)\\)");
+            QRegularExpressionMatch ma = cmdRe.match(s);
+            if(ma.hasMatch() && ma.capturedTexts().size() > 3) {
+                QStringList caps = ma.capturedTexts();
                 QString newSrc = QString("%1(%2,%3)").arg(caps[1]).arg(caps[2]).arg(nsam);
                 srcs << newSrc;
             }
