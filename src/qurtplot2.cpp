@@ -37,7 +37,7 @@ void QuRTPlot2::setSources(const QStringList &srcs) {
 void QuRTPlot2::configureRT() {
     QDialog d(this);
     QGridLayout *lo = new QGridLayout(&d);
-    lo->setMargin(3);
+    lo->setContentsMargins(3,3,3,3);
     lo->setSpacing(lo->spacing() / 3);
     QLabel *lperiod = new QLabel("Period", &d);
     lperiod->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
