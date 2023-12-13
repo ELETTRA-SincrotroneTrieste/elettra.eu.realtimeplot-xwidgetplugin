@@ -7,7 +7,7 @@
 RTConfWidget::RTConfWidget(QWidget *parent) : QGroupBox (parent)
 {
     QGridLayout *lo = new QGridLayout(this);
-    lo->setMargin(3);
+    lo->setContentsMargins(3,3,3,3);
     lo->setSpacing(lo->spacing() / 3);
     QLabel *lperiod = new QLabel("Period", this);
     lperiod->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
